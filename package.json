@@ -1,0 +1,54 @@
+{
+  "name": "folio-bookmarks",
+  "version": "1.0.0",
+  "description": "A quiet home for your bookmarks.",
+  "author": "Folio",
+  "private": true,
+  "type": "module",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "desktop:dev": "concurrently -k \"vite --host 127.0.0.1\" \"wait-on http://127.0.0.1:5173 && electron . --dev\"",
+    "build": "vite build",
+    "start": "npm run build && electron .",
+    "install:linux": "node scripts/install-linux.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "package": "npm run build && electron-builder --linux AppImage tar.gz"
+  },
+  "dependencies": {
+    "lucide-react": "^0.577.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.0.0",
+    "concurrently": "^9.2.1",
+    "electron": "^44.4.3",
+    "electron-builder": "^26.0.12",
+    "vite": "^8.3.0",
+    "wait-on": "^9.0.4"
+  },
+  "build": {
+    "appId": "com.folio.bookmarks",
+    "productName": "Folio",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "src/model.mjs",
+      "build/icon.png",
+      "package.json"
+    ],
+    "linux": {
+      "category": "Utility",
+      "icon": "build/icon.png",
+      "executableName": "folio",
+      "artifactName": "Folio-${version}-${arch}.${ext}",
+      "syncDesktopName": true
+    },
+    "compression": "normal"
+  },
+  "desktopName": "folio.desktop"
+}
